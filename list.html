@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app">
+    <input type="text" v-model="newitem" @keydown.enter="addItem" :style="{border: '10px solid '+inputColor}">
+    <input type="button" value="新增" @click="addItem">
+    <ul>
+      <li v-for="(item, index) in items">
+        <input type="checkbox" :checked="item.buy" @change="item.buy = !item.buy">
+        <del v-if="item.buy">{{ item.text }}</del>
+        <span v-else>{{ item.text }}</span>
+        <input type="button" value="刪除" @click="delItem(index)">
+      </li>
+    </ul>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        newitem: '',
+        // localStorage.getItem('items')
+        // 從 localStorage 取出名叫 items 的東西
+        // 因為 localStorage 存文字所以需要用 JSON.parse() 轉成可以用的陣列
+        items: JSON.parse(localStorage.getItem('items')) || []
+      },
+      methods: {
+        addItem() {
+          if(this.newitem.length >= 2) {
+            this.items.push({buy: false, text: this.newitem})
+            this.newitem = ''
+          }
+        },
+        delItem(index) {
+          this.items.splice(index, 1)
+        }
+      },
+      // 計算屬性
+      // 以原本的 data 去處理後產生新的 data
+      computed: {
+        inputColor() {
+          const length = this.newitem.length
+          return length === 0 ? 'black' : length < 2 ? 'red' : 'green'
+        }
+      },
+      // 偵測 data 變動
+      watch: {
+        newitem(newValue, oldValue) {
+          // console.log(newValue, oldValue)
+        },
+        items: {
+          handler(newValue, oldValue) {
+            // 設定 localStorage 的 items 的值
+            // 因為 localStorage 存文字所以需要用 JSON.stringify() 把陣列轉文字
+            localStorage.setItem('items', JSON.stringify(newValue))
+          },
+          // 因為預設偵測陣列時只能偵測多一個或少一個東西
+          // 裡面東西改變不會偵測
+          // 所以要設定 deep 為 true
+          deep: true
+        }
+      }
+    })
+  </script>
+</body>
+</html>

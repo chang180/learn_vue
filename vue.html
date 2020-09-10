@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .text-center {
+      text-align: center;
+    }
+    .text-success {
+      color: green
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <h1>{{ count }}</h1>
+    <h1 v-text="count"></h1>
+    <h1 v-html="html"></h1>
+
+    <h1 v-if="count === 1">count === 1</h1>
+    <h1 v-else-if="count === 2">count === 2</h1>
+    <h1 v-else>count != 2 && count != 1</h1>
+
+    <h1 v-show="count === 1">count === 1</h1>
+
+    <ul>
+      <li v-for="(fruit, idx) in fruits">{{ idx > 2 ? 'Hi' : 'ABC' }}</li>
+    </ul>
+
+    <a v-bind:href="url">FB</a>
+    <a :href="url">FB</a>
+
+    <ul>
+      <li v-for="(url, index) in urls">
+        <a :href="url">{{ url }}</a>
+      </li>
+    </ul>
+
+    <input type="text" v-model="input" :placeholder="placeholder">
+    {{ input }}
+    <h1 v-if="input === 'hi'">嗨</h1>
+
+    <h1 :style="{color: mycolor, backgroundColor: mybackgroundColor}">文字文字文字</h1>
+    <input type="text" v-model="mycolor">
+    <h1 :class="{'text-center': isCenter, 'text-success': isSuccess}">文字文字文字</h1>
+
+    <input type="button" value="點我" v-on:click="count++">
+    <input type="button" value="點我" @click="addCount(2)">
+
+    <input type="button" value="減" @click="minusCount(5)">
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        count: 1,
+        html: '<a href="https://fb.com">Facebook</a>',
+        fruits: ['西瓜', '蘋果', '香蕉', '芭樂'],
+        url: 'https://fb.com',
+        urls: ['https://fb.com', 'https://google.com', 'https://github.com'],
+        input: 'Ssdfsdf',
+        placeholder: '請輸入 :D',
+        mycolor: 'red',
+        mybackgroundColor: 'black',
+        isCenter: true,
+        isSuccess: false
+      },
+      methods: {
+        addCount(count) {
+          console.log(count)
+          console.log(event)
+          this.count += count
+        },
+        minusCount(count) {
+          this.count -= count
+        }
+      }
+    })
+  </script>
+</body>
+</html>
