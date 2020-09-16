@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .card {
+      width: 200px;
+      border: 1px solid black;
+      box-shadow: 10px 10px 10px black;
+      display: inline-block;
+      margin: 5px;
+    }
+    .card > img {
+      width: 100%
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <h1>我愛財哥</h1>
+    <p>總共按了 {{ good }} 個讚</p>
+    <card v-for="z in zack" :data="z" @good="onGood"></card>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script type="text/x-template" id="card">
+    <div class="card">
+      <img :src="data.image" alt="">
+      <p>{{ data.description }}</p>
+      <input type="button" :value="goodText" @click="handleGood">
+    </div>
+  </script>
+  <script>
+    new Vue({
+      el: '#app',
+      data() {
+        return {
+          zack: [],
+          good: 0
+        }
+      },
+      methods: {
+        onGood(value) {
+          if(value) this.good++
+          else this.good--
+        }
+      },
+      mounted() {
+        fetch('https://api.kento520.tw/zack/')
+          .then(data => data.json())
+          .then(data => {
+            this.zack = data.slice(0, 5)
+          })
+      }
+    })
+
+    Vue.component('card', {
+      template: '#card',
+      data() {
+        return {
+          good: false
+        }
+      },
+      props: {
+        data: Object
+      },
+      computed: {
+        goodText() {
+          return this.good ? '收回讚' : '讚'
+        }
+      },
+      methods: {
+        handleGood() {
+          this.good = !this.good
+          this.$emit('good', this.good)
+        }
+      }
+    })
+  </script>
+</body>
+</html>

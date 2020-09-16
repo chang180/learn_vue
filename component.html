@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+</head>
+<body>
+  <div id="app">
+    <counter></counter>
+    <counter></counter>
+    <counter></counter>
+    <br>
+    <!-- 引用子元件
+    傳入 title 和 description 兩個東西
+    偵測 change 事件發生時執行 handleChange 這個動作 
+    $event 是事件傳出的值
+    -->
+    <post v-for="(post, index) in posts" :title="post.title" :description="post.description" @fruit="handleFruit(index, $event)"></post>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <!-- id 為 counter 的模板 -->
+  <script type="text/x-template" id="counter">
+    <button @click="clicktimes++">{{ clicktimes }}</button>
+  </script>
+  <!-- id 為 post 的模板 -->
+  <script type="text/x-template" id="post">
+    <div style="border: 10px solid black">
+      <h1>{{ title }}</h1>
+      <p>{{ description }}</p>
+      <input type="button" @click="changeTitle">
+    </div>
+  </script>
+  <script>
+    // 建立一個 Vue 元件
+    // 元件名稱叫做 counter
+    Vue.component('counter', {
+      // 元件使用的 id 為 counter 的模板
+      template: '#counter',
+      // data 必須寫成 function return 的方式
+      data() {
+        return {
+          clicktimes: 0
+        }
+      }
+    })
+
+    Vue.component('post', {
+      template: '#post',
+      // 外層傳進元件的資料
+      props: {
+        title: String,
+        description: String
+      },
+      methods: {
+        changeTitle() {
+          // $emit 觸發一個名叫 fruit 的事件
+          // 帶進一個值
+          this.$emit('fruit', 'apple')
+        }
+      }
+    })
+
+    new Vue({
+      el: '#app',
+      data() {
+        return {
+          posts: [
+            {
+              title: 'hi1',
+              description: 'aaa'
+            },
+            {
+              title: 'hi2',
+              description: 'bbb'
+            },
+            {
+              title: 'hi3',
+              description: 'ccc'
+            }
+          ]
+        }
+      },
+      methods: {
+        // 將 change 發生時的值帶入
+        handleFruit(index, value) {
+          console.log(index);
+          console.log(value);
+          this.posts[index].title = value
+        }
+      }
+    })
+  </script>
+</body>
+</html>

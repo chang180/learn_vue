@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app">
+    <h1 id="aaa">aaa</h1>
+    <up></up>
+    <down></down>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script type="text/x-template" id="up">
+    <input type="button" value="傳資料到 down" @click="sendDown">
+  </script>
+  <script type="text/x-template" id="down">
+    <h1>{{ text }}</h1>
+  </script>
+  <script>
+    // 建立一個傳送資料用的 Vue
+    const eventBus = new Vue()
+
+    Vue.component('up', {
+      template: '#up',
+      methods: {
+        sendDown() {
+          // 讓 eventBus 觸發一個叫做 sendDown 的事件，傳入 'apple'
+          eventBus.$emit('sendDown', 'apple')
+        }
+      }
+    })
+
+    Vue.component('down', {
+      template: '#down',
+      data() {
+        return {
+          text: ''
+        }
+      },
+      // 當元件成功被掛載到 DOM 上時
+      mounted() {
+        // 監聽 eventBus，當 sendDown 事件發生時
+        eventBus.$on('sendDown', (value) => {
+          this.text = value
+        })
+      }
+    })
+
+    new Vue({
+      el: '#app'
+    })
+  </script>
+</body>
+</html>
