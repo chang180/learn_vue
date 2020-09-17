@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    const willGetMoney = (pass) => {
+      return new Promise((resolve, reject) => {
+        if(pass) resolve('拿到零用錢')
+        else reject('我就爛')
+      })
+    }
+
+    willGetMoney(true)
+      .then((result) => {
+        console.log(result)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+      .finally(() => {
+        console.log('睡覺')
+      })
+  </script>
+</body>
+</html>

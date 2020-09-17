@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script>
+    const doSomething = (ok) => {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          if(ok) resolve('ok')
+          else reject('not ok')
+        }, 2000)
+      })
+    }
+
+    // $.get('https://kktix.com/events.json', (result) => {
+    //   $.get('https://kktix.com/events.json', (result) => {
+    //     $.get('https://kktix.com/events.json', (result) => {
+    //       console.log(result);
+    //     })
+    //   })
+    // })
+
+    const myfunc = async () => {
+      try {
+        const result = await doSomething(false).catch((error) => {
+          console.log(error);
+        })
+        // const result = await $.get('https://kktix.com/events.json')
+        console.log(result);
+        console.log('abc');
+      } catch (error) {
+        console.log('error: ' + error);
+      }
+    }
+
+    myfunc()
+
+    // doSomething(true)
+    //   .then((result) => {
+    //     console.log(result);
+    //   })
+    // console.log('abc');
+  </script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    try {
+      // 驗證字數
+      const islenthok = validLenth()
+      if(!islenthok) throw new Error('length')
+
+      // 有沒有特殊字
+      const hasSpecial = validSpecial()
+      if(!hasSpecial) throw new Error('special')
+
+      // 驗證成功
+      console.log('ok')
+    } catch (error) {
+      switch(error.message) {
+        case 'length':
+          alert('長度不 Ok')
+          break
+        case 'special':
+          alert('沒有特殊字')
+          break
+        default:
+          alert('發生未知錯誤')
+          break
+      }
+    }
+  </script>
+</body>
+</html>

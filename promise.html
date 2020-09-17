@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    const pass = true
+    
+    const willGetMoney = new Promise((resolve, reject) => {
+      if(pass) resolve('拿到零用錢')
+      else reject('我就爛')
+    })
+
+    willGetMoney
+      // .then() 是 Promise 成功時做的事情
+      .then((result) => {
+        console.log(result)
+      })
+      // .catch() 是 Promise 失敗時做的事情
+      // 如果 .then() 裡面出錯也會直接跳來這裡
+      .catch((error) => {
+        console.log(error)
+      })
+      // 不管成功失敗都會做的事
+      .finally(() => {
+        console.log('睡覺')
+      })
+  </script>
+</body>
+</html>
